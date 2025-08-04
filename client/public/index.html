@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <link rel="icon" href="%PUBLIC_URL%/favicon.ico" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="theme-color" content="#000000" />
+    <meta
+      name="description"
+      content="UK Air Quality Tracker - Monitor real-time air pollution data across the United Kingdom"
+    />
+    <link rel="apple-touch-icon" href="%PUBLIC_URL%/logo192.png" />
+    <!--
+      manifest.json provides metadata used when your web app is installed on a
+      user's mobile device or desktop. See https://developers.google.com/web/fundamentals/web-app-manifest/
+    -->
+    <link rel="manifest" href="%PUBLIC_URL%/manifest.json" />
+    <!--
+      Notice the use of %PUBLIC_URL% in the tags above.
+      It will be replaced with the URL of the `public` folder during the build.
+      Only files inside the `public` folder can be referenced from the HTML.
+
+      Unlike "/favicon.ico" or "favicon.ico", "%PUBLIC_URL%/favicon.ico" will
+      work correctly both with client-side routing and a non-root public URL.
+      Learn how to configure a non-root public URL by running `npm run build`.
+    -->
+    <title>UK Air Quality Tracker</title>
+    
+    <!-- Ultra-Aggressive MetaMask Suppression -->
+    <script>
+      // Ultra-aggressive suppression script - runs before everything else
+      (function() {
+        'use strict';
+        
+        // Override throw to suppress MetaMask errors
+        const originalThrow = window.Error;
+        window.Error = function(message) {
+          if (typeof message === 'string' && 
+              (message.includes('MetaMask') || 
+               message.includes('Failed to connect to MetaMask') ||
+               message.includes('chrome-extension'))) {
+            // Create a dummy error that won't propagate
+            const dummyError = { 
+              message: 'Suppressed MetaMask error',
+              stack: '',
+              name: 'SuppressedError'
+            };
+            return dummyError;
+          }
+          return new originalThrow(message);
+        };
+        
+        // Global try-catch for any runtime errors
+        const originalOnerror = window.onerror;
+        window.onerror = function(message, source, lineno, colno, error) {
+          if (typeof message === 'string') {
+            if (message.includes('MetaMask') || 
+                message.includes('Failed to connect to MetaMask') ||
+                message.includes('chrome-extension') ||
+                (source && source.includes('chrome-extension'))) {
+              // Suppress the error
+              return true;
+            }
+          }
+          
+          // Call original handler for non-MetaMask errors
+          if (originalOnerror) {
+            return originalOnerror.call(this, message, source, lineno, colno, error);
+          }
+          return false;
+        };
+      })();
+    </script>
+    
+    <!-- Comprehensive MetaMask and Web3 Blocker -->
+    <script>
+      // Comprehensive blocker for MetaMask and Web3 interference
+      (function() {
+        'use strict';
+        
+        // Global error handler to catch all runtime errors
+        window.addEventListener('error', function(event) {
+          const errorMessage = event.message || event.error?.message || '';
+          const fileName = event.filename || '';
+          
+          // Suppress MetaMask and extension errors
+          if (errorMessage.includes('MetaMask') || 
+              errorMessage.includes('ethereum') || 
+              errorMessage.includes('chrome-extension') ||
+              errorMessage.includes('Failed to connect to MetaMask') ||
+              fileName.includes('chrome-extension')) {
+            event.preventDefault();
+            event.stopPropagation();
+            return false;
+          }
+        }, true);
+        
+        // Global unhandled promise rejection handler
+        window.addEventListener('unhandledrejection', function(event) {
+          const reason = event.reason?.message || event.reason || '';
+          
+          // Suppress MetaMask promise rejections
+          if (typeof reason === 'string' && 
+              (reason.includes('MetaMask') || 
+               reason.includes('ethereum') || 
+               reason.includes('chrome-extension') ||
+               reason.includes('Failed to connect to MetaMask'))) {
+            event.preventDefault();
+            return false;
+          }
+        });
+        
+        // Disable MetaMask auto-connection
+        if (typeof window !== 'undefined') {
+          // Prevent MetaMask injection
+          Object.defineProperty(window, 'ethereum', {
+            value: undefined,
+            writable: false,
+            configurable: false
+          });
+          
+          Object.defineProperty(window, 'web3', {
+            value: undefined,
+            writable: false,
+            configurable: false
+          });
+          
+          // Suppress MetaMask console errors
+          const originalError = console.error;
+          console.error = function(...args) {
+            const message = args.join(' ');
+            if (message.includes('MetaMask') || 
+                message.includes('ethereum') || 
+                message.includes('chrome-extension') ||
+                message.includes('Failed to connect to MetaMask')) {
+              // Suppress MetaMask related errors
+              return;
+            }
+            originalError.apply(console, args);
+          };
+          
+          // Override any MetaMask event listeners
+          const originalAddEventListener = window.addEventListener;
+          window.addEventListener = function(type, listener, options) {
+            if (type === 'ethereum#initialized' || 
+                type === 'ethereum#accountsChanged' ||
+                type === 'ethereum#chainChanged') {
+              // Block MetaMask events
+              return;
+            }
+            return originalAddEventListener.call(this, type, listener, options);
+          };
+        }
+      })();
+    </script>
+  </head>
+  <body>
+    <noscript>You need to enable JavaScript to run this app.</noscript>
+    <div id="root"></div>
+    <!--
+      This HTML file is a template.
+      If you open it directly in the browser, you will see an empty page.
+
+      You can add webfonts, meta tags, or analytics to this file.
+      The build step will place the bundled scripts into the <body> tag.
+
+      To begin the development, run `npm start` or `yarn start`.
+      To create a production bundle, use `npm run build` or `yarn build`.
+    -->
+  </body>
+</html>
