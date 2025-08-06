@@ -185,7 +185,7 @@ const PollutionRankings = () => {
 
   return (
     <Box>
-      <Typography variant="h4" gutterBottom>
+      <Typography id="rankings-heading" variant="h4" gutterBottom>
         UK Pollution Rankings
       </Typography>
 
