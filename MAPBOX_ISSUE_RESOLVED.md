@@ -9,7 +9,7 @@ The React development server was initially started from the wrong directory cont
 ## Solution Applied
 1. **Verified .env file existence and content**: The `.env` file in the client directory contained the correct Mapbox access token:
    ```
-   REACT_APP_MAPBOX_ACCESS_TOKEN=pk.eyJ1IjoidWx5c3Nlc2NvZ25pemFudCIsImEiOiJjbWRoaGN0MDgwMXM3MmxzaDI0ZWp3dXQ1In0.R1YvVp-kyypKQ2co92h9gw
+   REACT_APP_MAPBOX_ACCESS_TOKEN=
    REACT_APP_API_URL=http://localhost:5000/api
    ```
 
