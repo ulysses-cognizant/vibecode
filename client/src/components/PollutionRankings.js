@@ -82,6 +82,17 @@ const PollutionRankings = () => {
 
   const handleTabChange = (event, newValue) => {
     setTabValue(newValue);
+    // Use setTimeout to ensure the tab content renders before scrolling
+    setTimeout(() => {
+      const element = document.getElementById('rankings-heading');
+      if (element) {
+        const elementPosition = element.offsetTop - 20; // Add 20px offset for better positioning
+        window.scrollTo({ 
+          top: elementPosition, 
+          behavior: 'smooth' 
+        });
+      }
+    }, 100);
   };
 
   const getCategoryColor = (category) => {
